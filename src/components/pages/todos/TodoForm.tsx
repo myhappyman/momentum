@@ -1,89 +1,24 @@
-import { useState, useContext } from 'react';
-import { useDispatch } from 'react-redux';
-import { ITodo, add } from '../../store/todos';
-import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
-
 import styled from 'styled-components';
+
+import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import {
   Wrapper,
   Title,
   BlueBtn,
   RedBtn,
-} from '../../atom/Styles/CommonComponents';
-
-import { getCurrentDate } from '../../utils';
-import { ConfirmContext } from '../../context/confirm';
-import { openModals } from '../../store/commonModals';
+} from '../../../atoms/Styles/CommonComponents';
+import addTodos from '../../hooks/todos/addTodos';
 
 export default function TodoForm() {
-  const dispatch = useDispatch();
-  const [todo, setTodo] = useState('');
-  const [todoList, setTodoList] = useState<ITodo[]>([]);
-  const { state, actions } = useContext(ConfirmContext);
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setTodo(e.target.value);
-
-  const toggleDone = (id: number) =>
-    setTodoList((prev) =>
-      prev.map((todo) =>
-        todo.id === id ? { ...todo, done: !todo.done } : todo,
-      ),
-    );
-
-  const regitRealTodos = () => {
-    dispatch(add({ regitDate: getCurrentDate(''), todos: todoList }));
-    dispatch(
-      openModals({
-        type: 'alert',
-        title: '알림',
-        message: '일정이 등록되었습니다.',
-      }),
-    );
-    setTodoList([]);
-    setTodo('');
-  };
-
-  const regitTodos = () => {
-    if (todoList.length === 0) {
-      dispatch(
-        openModals({
-          type: 'alert',
-          title: '알림',
-          message: '일정은 최소한 한개를 등록하셔야 합니다.',
-        }),
-      );
-      return;
-    }
-
-    actions.openConfirm();
-    state.success = regitRealTodos;
-    // actions.setSuccess(regitRealTodos);
-  };
-
-  const tempTodosDelte = (id: number) => {
-    setTodoList((prev) => prev.filter((x) => x.id !== id));
-  };
-
-  const tempStorageTodo = (e: React.FormEvent<HTMLFormElement>) => {
-    if (todoList.length > 10) {
-      dispatch(
-        openModals({
-          type: 'alert',
-          title: '알림',
-          message: '일정은 10개까지 등록 가능합니다.',
-        }),
-      );
-      return;
-    }
-
-    setTodoList((prev) => [
-      ...prev,
-      { id: Date.now(), todo: todo, done: false, mode: false },
-    ]);
-    setTodo('');
-    e.preventDefault();
-  };
+  const {
+    todo,
+    todoList,
+    onInputChange,
+    toggleDone,
+    regitTodos,
+    tempTodosDelte,
+    tempStorageTodo,
+  } = addTodos();
 
   return (
     <Wrapper>
@@ -93,7 +28,7 @@ export default function TodoForm() {
           <Input
             type="text"
             value={todo}
-            onChange={onChange}
+            onChange={onInputChange}
             placeholder="✨ 일정을 입력하세요"
           />
           <BlueBtn type="submit">추가</BlueBtn>

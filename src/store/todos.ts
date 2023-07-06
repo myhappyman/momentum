@@ -70,18 +70,11 @@ const removeTodo = (state: ITodos, action: PayloadAction<string>) => {
  */
 const updateDoneTodo = (state: ITodos, action: PayloadAction<IUpdateDone>) => {
   const { key, id } = action.payload;
-  console.log('updateDoneTodo', key, id);
-  return state;
-  // return state.map((data: ITodos) => {
-  //   if (data.id === action.payload.dataId) {
-  //     const toggleDone = data.todos.map((x: ITodo) =>
-  //       x.id === action.payload.id ? { ...x, done: !x.done } : x,
-  //     );
-  //     return { ...data, todos: toggleDone };
-  //   } else {
-  //     return data;
-  //   }
-  // });
+  const copyTodos = [...state[key].todos];
+  const newState = copyTodos.map((todo: ITodo) => {
+    return todo.id === id ? { ...todo, done: !todo.done } : todo;
+  });
+  state[key] = { ...state[key], todos: newState };
 };
 
 export const toDos = createSlice({

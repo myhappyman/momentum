@@ -5,14 +5,19 @@ type ModalTypes = {
   type: 'alert' | 'confirm';
   title: string;
   message: string;
+  onSuccess?: () => void;
 };
 
 const open = (
   state: ModalTypes,
   action: PayloadAction<Omit<ModalTypes, 'open'>>,
 ) => {
-  const { type, title, message } = action.payload;
-  return { ...state, open: true, type, title, message };
+  const { type, title, message, onSuccess } = action.payload;
+  if (onSuccess && typeof onSuccess === 'function') {
+    return { ...state, open: true, type, title, message, onSuccess };
+  } else {
+    return { ...state, open: true, type, title, message };
+  }
 };
 
 const close = (state: ModalTypes) => {

@@ -6,7 +6,7 @@ export default function TodosEmpty() {
     <Wrap>
       <p>등록된 일정이 없습니다.</p>
       <p>
-        <AddLink to="/addTodo">여기</AddLink>를 클릭해서 일정을 추가해보세요
+        <AddLink to="/addTodo">🪄여기</AddLink>를 클릭해서 일정을 추가해보세요
       </p>
     </Wrap>
   );

@@ -1,9 +1,13 @@
 import styled from 'styled-components';
-import { B, ColorB, SectionWrapper } from '../atom/Styles/CommonComponents';
+import {
+  B,
+  ColorB,
+  SectionWrapper,
+} from '../../../atoms/Styles/CommonComponents';
 
 export default function Home() {
   return (
-    <HomeWrapper>
+    <Wrap>
       <Title>
         일정 관리 <ColorB>Momentum</ColorB>을
         <br />
@@ -16,8 +20,8 @@ export default function Home() {
         아무리 꼼꼼한 성격의 사람이라도 바쁘다보면 종종 일정을 놓치는 경우가
         있을겁니다.
         <br />
-        하루에 처리해야 할 일정들을 <ColorB>Momentum</ColorB>을 사용해
-        처리해보세요. <br />
+        하루에 처리해야 할 일정들을 <ColorB>Momentum</ColorB>을 사용해보세요.
+        <br />
         날짜별로 일정들을 관리해줍니다.
         <br />
         처리한 일은 체크하여 구분을 할 수 있습니다.
@@ -27,17 +31,13 @@ export default function Home() {
         또한, 소소한 Widget으로 오늘의 날씨와 현재 시간을 보여드립니다.
         <br />
       </Contents>
-    </HomeWrapper>
+    </Wrap>
   );
 }
 
-const HomeWrapper = styled(SectionWrapper)`
-  display: flex;
-  align-items: flex-start;
-  justify-content: baseline;
-  flex-direction: column;
-  padding: 30px;
+const Wrap = styled.div`
   margin-top: 50px;
+  padding: 30px;
 `;
 
 const Title = styled.h1`

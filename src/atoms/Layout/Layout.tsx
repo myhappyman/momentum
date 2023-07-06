@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom';
 import { styled } from 'styled-components';
 import ConfirmProvider from '../../context/confirm';
 import Header from '../Header/Header';
+import CommonModals from '../Modals/CommonModals';
+import { SectionWrapper } from '../Styles/CommonComponents';
 
 export default function Layout() {
   return (
@@ -10,9 +12,12 @@ export default function Layout() {
       <ConfirmProvider>
         <Inner>
           <Header />
-          <Outlet />
+          <SectionWrapper>
+            <Outlet />
+          </SectionWrapper>
         </Inner>
       </ConfirmProvider>
+      <CommonModals />
     </Wrapper>
   );
 }
@@ -58,7 +63,7 @@ const Inner = styled.main`
   height: 90vh;
   background-color: #fff;
   border: none;
-  border-radius: 20px;
+  border-radius: 30px 0 30px 0;
   box-shadow: ${(props) => props.theme.boxShadow};
   overflow: hidden;
   z-index: 1;

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { toDos } from './todos';
-import { commonModals } from './commonModals';
+import { commonModals } from './modals';
 
 const store = configureStore({
   reducer: {
