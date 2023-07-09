@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getCurrentDate } from '../utils';
+import { getCurrentDate, getTodos, saveTodos } from '../utils';
 
 export interface ITodo {
   id: number;
@@ -37,6 +37,7 @@ const addTodo = (state: ITodos, action: PayloadAction<Add>) => {
   const id = Date.now();
   const writeDate = getCurrentDate();
   state[regitDate] = { id, todos, writeDate }; // 일정 추가
+  saveTodos({ ...state }); // localstorage에 저장
 };
 
 /**
@@ -77,9 +78,10 @@ const updateDoneTodo = (state: ITodos, action: PayloadAction<IUpdateDone>) => {
   state[key] = { ...state[key], todos: newState };
 };
 
+const initialState = getTodos();
 export const toDos = createSlice({
   name: 'todos',
-  initialState: {} as ITodos,
+  initialState: initialState as ITodos,
   reducers: {
     add: addTodo,
     updateDone: updateDoneTodo,
