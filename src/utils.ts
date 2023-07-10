@@ -30,3 +30,8 @@ export const getTodos = () => {
   }
   return {};
 };
+
+// localstorage 초기화
+export const initTodos = () => {
+  localStorage.removeItem(TODOS_KEY);
+};

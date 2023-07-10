@@ -57,9 +57,9 @@ const removeKey = (key: string, { [key]: _, ...rest }) => rest;
  */
 const removeTodo = (state: ITodos, action: PayloadAction<string>) => {
   const regitDate = action.payload;
-  // delete state[regitDate];
-  // return { ...state };
-  return removeKey(regitDate, state);
+  state = removeKey(regitDate, state);
+  saveTodos({ ...state });
+  return state;
 };
 
 /**
@@ -76,6 +76,7 @@ const updateDoneTodo = (state: ITodos, action: PayloadAction<IUpdateDone>) => {
     return todo.id === id ? { ...todo, done: !todo.done } : todo;
   });
   state[key] = { ...state[key], todos: newState };
+  saveTodos({ ...state }); // done처리 저장
 };
 
 const initialState = getTodos();

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, PathMatch, useMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,6 +17,13 @@ export default function Header() {
   const addTodoMatch: PathMatch<string> | null = useMatch('/addTodo');
   const allViewMatch: PathMatch<string> | null = useMatch('/allView');
   const match_arr = [homeMatch, addTodoMatch, allViewMatch];
+
+  const WHEATHER_KEY = import.meta.env.VITE_WHEATHER_KEY;
+  useEffect(() => {
+    const REQ_URL = `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=${WHEATHER_KEY}`;
+    // fetch(REQ_URL)
+  }, []);
+
   return (
     <Wrapper>
       <Title>

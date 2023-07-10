@@ -1,9 +1,5 @@
 import styled from 'styled-components';
-import {
-  B,
-  ColorB,
-  SectionWrapper,
-} from '../../../atoms/Styles/CommonComponents';
+import { B, ColorB } from '../../../atoms/Styles/CommonComponents';
 
 export default function Home() {
   return (
