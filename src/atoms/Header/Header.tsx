@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, PathMatch, useMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -6,11 +6,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getCurrentDate } from '../../utils';
 import { B } from '../Styles/CommonComponents';
 
+interface IPosition {
+  coords: ICoords;
+}
+interface ICoords {
+  latitude: number;
+  longitude: number;
+}
+
 const URL_PATH = [
   { url: '/', name: '홈', id: 0 },
   { url: '/addTodo', name: '일정 추가', id: 1 },
   { url: '/allView', name: '일정 보기', id: 2 },
 ];
+
+const GET_WEATHER_URL = (lat: number, lon: number, api_key: string) =>
+  `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric&lang=ko`;
+const WHEATHER_KEY = import.meta.env.VITE_WHEATHER_KEY;
 
 export default function Header() {
   const homeMatch: PathMatch<string> | null = useMatch('/');
@@ -18,11 +30,30 @@ export default function Header() {
   const allViewMatch: PathMatch<string> | null = useMatch('/allView');
   const match_arr = [homeMatch, addTodoMatch, allViewMatch];
 
-  const WHEATHER_KEY = import.meta.env.VITE_WHEATHER_KEY;
+  const [temp, setTemp] = useState(0);
+
   useEffect(() => {
-    const REQ_URL = `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=${WHEATHER_KEY}`;
-    // fetch(REQ_URL)
+    const onSuccess = async (position: IPosition) => {
+      const { latitude, longitude } = position.coords;
+      const response = await fetch(
+        GET_WEATHER_URL(latitude, longitude, WHEATHER_KEY),
+      );
+      const json = await response.json();
+      console.log(json);
+      const { main, weather } = json;
+      console.log(main);
+      console.log(weather);
+
+      setTemp(main?.temp);
+    };
+
+    const onError = () => {
+      console.warn('날씨와 위치정보를 가져오는데 오류가 발생했습니다.');
+    };
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
   }, []);
+
+  console.log(temp);
 
   return (
     <Wrapper>
@@ -31,6 +62,7 @@ export default function Header() {
           <B>⭐Momentum's</B>
         </Logo>
         <Today>{getCurrentDate()}</Today>
+        <Temp>{temp}</Temp>
       </Title>
       <Nav>
         <NavWrap>
@@ -89,6 +121,9 @@ const Logo = styled.span`
   font-size: 18px;
 `;
 const Today = styled.span`
+  margin-left: 20px;
+`;
+const Temp = styled.span`
   margin-left: 20px;
 `;
 
