@@ -9,6 +9,7 @@ import { B } from '../Styles/CommonComponents';
 interface IPosition {
   coords: ICoords;
 }
+
 interface ICoords {
   latitude: number;
   longitude: number;
@@ -39,11 +40,8 @@ export default function Header() {
         GET_WEATHER_URL(latitude, longitude, WHEATHER_KEY),
       );
       const json = await response.json();
-      console.log(json);
       const { main, weather } = json;
-      console.log(main);
       console.log(weather);
-
       setTemp(main?.temp);
     };
 
@@ -82,26 +80,26 @@ export default function Header() {
   );
 }
 
-const navVariants = {
-  initial: {
-    background: 'none',
-  },
-  animate: {
-    background: 'green',
-    transition: { duration: 0.5 },
-  },
-  exit: {
-    background: 'none',
-  },
-};
+// const navVariants = {
+//   initial: {
+//     background: 'none',
+//   },
+//   animate: {
+//     background: 'green',
+//     transition: { duration: 0.5 },
+//   },
+//   exit: {
+//     background: 'none',
+//   },
+// };
 
-const GoLinkProps = {
-  variants: navVariants,
-  initial: 'initial',
-  animate: 'animate',
-  exit: 'exit',
-  className: 'active',
-};
+// const GoLinkProps = {
+//   variants: navVariants,
+//   initial: 'initial',
+//   animate: 'animate',
+//   exit: 'exit',
+//   className: 'active',
+// };
 
 const Wrapper = styled.header`
   display: flex;
