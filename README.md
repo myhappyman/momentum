@@ -2,6 +2,12 @@
 
 react를 통해 웹 어플리케이션으로 모멘텀 앱을 작성해봅니다.
 
+# Build(Vercel)
+
+vercel을 통해 github와 연동하여 마스터 브랜치를 기준으로 CI/CD처리
+
+url: https://momentum-green.vercel.app/
+
 ## 🚀개발 목표
 
 🔹 UI는 내가 원하는 편한 형태로 구성
