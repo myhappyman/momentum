@@ -32,6 +32,8 @@ export default function Header() {
   const match_arr = [homeMatch, addTodoMatch, allViewMatch];
 
   const [temp, setTemp] = useState(0);
+  const [weather, setWeather] = useState('');
+  const [icon, setIcon] = useState('');
 
   useEffect(() => {
     const onSuccess = async (position: IPosition) => {
@@ -43,6 +45,8 @@ export default function Header() {
       const { main, weather } = json;
       console.log(weather);
       setTemp(main?.temp);
+      setIcon(`https://openweathermap.org/img/wn/${weather[0]?.icon}.png`);
+      setWeather(weather[0]?.main);
     };
 
     const onError = () => {
@@ -60,7 +64,11 @@ export default function Header() {
           <B>⭐Momentum's</B>
         </Logo>
         <Today>{getCurrentDate()}</Today>
-        <Temp>{temp}</Temp>
+        <Temp>{temp}°C</Temp>
+        <Weather>
+          <img src={icon} />
+          {weather}
+        </Weather>
       </Title>
       <Nav>
         <NavWrap>
@@ -123,6 +131,14 @@ const Today = styled.span`
 `;
 const Temp = styled.span`
   margin-left: 20px;
+`;
+const Weather = styled.span`
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  img {
+    display: inline-block;
+  }
 `;
 
 const Nav = styled.nav``;
