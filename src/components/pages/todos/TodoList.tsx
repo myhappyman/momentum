@@ -46,6 +46,7 @@ export default function TodoList() {
 const List = styled.ul`
   width: 100%;
   display: flex;
+  margin-top: 30px;
 `;
 
 const TodoDay = styled.li`

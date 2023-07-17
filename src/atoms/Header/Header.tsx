@@ -31,8 +31,8 @@ export default function Header() {
   const allViewMatch: PathMatch<string> | null = useMatch('/allView');
   const match_arr = [homeMatch, addTodoMatch, allViewMatch];
 
-  const [temp, setTemp] = useState(0);
-  const [weather, setWeather] = useState('');
+  const [temp, setTemp] = useState(999);
+  const [weather, setWeather] = useState([]);
   const [icon, setIcon] = useState('');
 
   useEffect(() => {
@@ -43,7 +43,6 @@ export default function Header() {
       );
       const json = await response.json();
       const { main, weather } = json;
-      console.log(weather);
       setTemp(main?.temp);
       setIcon(`https://openweathermap.org/img/wn/${weather[0]?.icon}.png`);
       setWeather(weather[0]?.main);
@@ -55,20 +54,22 @@ export default function Header() {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   }, []);
 
-  console.log(temp);
-
   return (
     <Wrapper>
       <Title>
         <Logo>
-          <B>⭐Momentum's</B>
+          <Link to="/">
+            <B>⭐Momentum's</B>
+          </Link>
         </Logo>
         <Today>{getCurrentDate()}</Today>
-        <Temp>{temp}°C</Temp>
-        <Weather>
-          <img src={icon} />
-          {weather}
-        </Weather>
+        {temp < 999 ? <Temp>{temp}°C</Temp> : null}
+        {weather.length > 0 ? (
+          <Weather>
+            <img src={icon} />
+            {weather}
+          </Weather>
+        ) : null}
       </Title>
       <Nav>
         <NavWrap>
