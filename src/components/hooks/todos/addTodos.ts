@@ -1,14 +1,19 @@
 import { useState } from 'react';
 import { ITodo, add } from '../../../store/todos';
 import modalsHook from '../../../atoms/Modals/modalsHook';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentDate } from '../../../utils';
+import { RootState } from '../../../store';
 
 export default function addTodos() {
+  const todosObj = useSelector((state: RootState) => state?.todos);
+  console.log(todosObj);
   const dispatch = useDispatch();
   const { openAlert, openConfirm } = modalsHook();
   const [todo, setTodo] = useState('');
-  const [todoList, setTodoList] = useState<ITodo[]>([]);
+  const [todoList, setTodoList] = useState<ITodo[]>(
+    todosObj[getCurrentDate('')].todos ?? [],
+  );
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTodo(e.target.value);
@@ -23,7 +28,6 @@ export default function addTodos() {
   const regist = () => {
     dispatch(add({ regitDate: getCurrentDate(''), todos: todoList }));
     openAlert('알림', '일정이 등록되었습니다.');
-    setTodoList([]);
     setTodo('');
   };
   const regitTodos = () => {
